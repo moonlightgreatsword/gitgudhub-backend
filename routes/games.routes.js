@@ -3,9 +3,18 @@ const router = express.Router();
 
 const ctrls = require("../controllers");
 
+// get all reviewed games
 router.get("/", ctrls.games.index);
-router.post("/", ctrls.games.create);
-router.delete("/:id", ctrls.games.destroy);
+
+// import new game to db
+router.post("/", ctrls.games.createGame);
+
+// create new review for game
+router.post("/:gameId", ctrls.games.createReview);
+
+// delete review
+router.delete("/:gameId/:reviewId", ctrls.games.deleteReview);
+
 router.put('/:id', ctrls.games.update)
 
 
