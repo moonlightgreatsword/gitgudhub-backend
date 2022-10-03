@@ -73,6 +73,6 @@ module.exports = {
   index,
   createGame,
   createReview,
-  deleteReview,
-  update,
+  // deleteReview,
+  // update,
 };
