@@ -13,7 +13,7 @@ router.post("/", ctrls.games.createGame);
 router.post("/:gameId", ctrls.games.createReview);
 
 // delete review
-// router.delete("/:gameId/:reviewId", ctrls.games.deleteReview);
+router.delete("/:gameId/:reviewId", ctrls.games.deleteReview);
 
 // router.put('/:id', ctrls.games.update)
 

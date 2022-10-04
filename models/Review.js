@@ -10,8 +10,8 @@ const reviewSchema = new mongoose.Schema({
         default: "Anonymous",
     },
     description: {
-      type: String,
-      default: "Best game ever!",
+        type: String,
+        default: "Best game ever!",
     },
   });
 

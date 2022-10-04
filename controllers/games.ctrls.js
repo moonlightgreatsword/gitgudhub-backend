@@ -39,20 +39,21 @@ const createReview = (req, res) => {
 }
 
 // delete a review
-// const deleteReview = (req, res) => {
-//   db.findById(req.params.gameId)
-//   .select("reviews")
-//   .exec((error, game) => {
-//     if (error) return res.status(400).json({ error: error.message });
+const deleteReview = (req, res) => {
+  db.findById(req.params.gameId)
+  .select("reviews")
+  .exec((error, game) => {
+    if (error) return res.status(400).json({ error: error.message });
 
-//     if (game.reviews.id(req.params.reviewId) !== null) {
-//       game.reviews.pull({ "_id": req.params.reviewId})
-//       game.save((err) => {
-//         if (err) return res.status(400).
-//       })
-//     }
-//   });
-// };
+    if (game.reviews.id(req.params.reviewId) !== null) {
+      game.reviews.pull({ "_id": req.params.reviewId})
+      game.save((err) => {
+        if (err) return res.status(400).json({ error: error.message });
+      })
+      return res.status(200).json(game);
+    }
+  });
+};
 
 // const update = (req, res) => {
 //   db.findByIdAndUpdate(
@@ -73,6 +74,6 @@ module.exports = {
   index,
   createGame,
   createReview,
-  // deleteReview,
+  deleteReview,
   // update,
 };
