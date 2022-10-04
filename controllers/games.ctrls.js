@@ -55,25 +55,26 @@ const deleteReview = (req, res) => {
   });
 };
 
-// const update = (req, res) => {
-//   db.findByIdAndUpdate(
-//     req.params.id,
-//     {
-//       $set: req.body,
-//     },
-//     { new: true },
-//     (error, updatedGame) => {
-//       if (error) return res.status(400).json({ error: error.message });
-
-//       return res.status(200).json(updatedGame);
-//     }
-//   );
-// };
+// we need to keep the gameId and author parameters inside of req.body in order for this to work, but maybe make them uneditable?
+const update = (req, res) => {
+  db.findOneAndUpdate(
+    { "id": req.params.gameId, "reviews._id": req.params.reviewId },
+    { "$set": { "reviews.$": req.body } },
+    { new: true },
+    (error, game) => {
+      if (error) return res.status(400).json({ error: error.message });
+      game.save((error) => {
+        if (error) return res.status(400).json({ error: error.message })
+      })
+      return res.status(200).json(game)
+    }
+  );
+};
 
 module.exports = {
   index,
   createGame,
   createReview,
   deleteReview,
-  // update,
+  update,
 };
