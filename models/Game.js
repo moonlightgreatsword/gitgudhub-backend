@@ -4,9 +4,13 @@ const reviewSchema = require("./Review")
 const gameSchema = new mongoose.Schema({
   // we are going to be manually setting the ids for games
   _id: {
-    type: Number,
+    type: String,
     required: true,
   },
+  name: String,
+  released: String,
+  metascore: String,
+  backgroundImage: String,
   reviews: [reviewSchema]
 })
 

@@ -14,28 +14,45 @@ const index = (req, res) => {
   });
 };
 
-// creates a game, not a review
-// should run when clicking on a game from the search field
-// we need a catch somewhere to make sure we don't create duplicate games
-const createGame = (req, res) => {
-  // the only thing we are passing is the id from the rawg api
-  db.create(req.body, (error, game) => {
-    if (error) return res.status(400).json({ error: error.message });
+const create = (req, res) => {
+  db.findById(req.body.gameId, (err, foundGame) => {
+    if (err) {
+      return res.status(400).json({ error: err.message })
+    }
 
-    return res.status(200).json(game); //  .json() will send proper headers in response so client knows it's json coming back
-  });
-};
+    if (foundGame) {
+      db.findByIdAndUpdate(req.body.gameId,
+        { "$push": { "reviews": {
+          "gameId": req.body.gameId,
+          "author": req.body.author,
+          "description": req.body.description
+        } } },
+        { new: true },
+        (error, game) => {
+          if (error) return res.status(400).json({ error: error.message });
+          // console.log(game)
+          return res.status(200).json(game);
+        });
+    } else {
+      db.create({
+        "_id": req.body.gameId,
+        "name": req.body.name,
+        "released": req.body.released,
+        "metacritic": req.body.metacritic,
+        "reviews": {
+          "gameId": req.body.gameId,
+          "author": req.body.author,
+          "description": req.body.description
+        }
+      }, (error, game) => {
+        if (error) return res.status(400).json({ error: error.message });
+        // console.log(game)
+        return res.status(200).json(game);
+      });
+    }
 
-// creates a review
-const createReview = (req, res) => {
-  db.findByIdAndUpdate(req.params.gameId,
-    { "$push": { "reviews": req.body } },
-    { new: true },
-    (error, game) => {
-      if (error) return res.status(400).json({ error: error.message });
-
-      return res.status(200).json(game);
-    });
+  } )
+  
 }
 
 // delete a review
@@ -73,8 +90,7 @@ const update = (req, res) => {
 
 module.exports = {
   index,
-  createGame,
-  createReview,
+  create,
   deleteReview,
   update,
 };
