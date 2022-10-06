@@ -39,6 +39,7 @@ const create = (req, res) => {
         "name": req.body.name,
         "released": req.body.released,
         "metacritic": req.body.metacritic,
+        "backgroundImage": req.body.backgroundImage,
         "reviews": {
           "gameId": req.body.gameId,
           "author": req.body.author,
