@@ -4,7 +4,10 @@ const router = express.Router();
 const ctrls = require("../controllers");
 
 // get all reviewed games
-router.get("/", ctrls.games.index);
+router.get("/reviewed", ctrls.games.index);
+
+// get selected reviewed games
+router.get("/reviewed/:id", ctrls.games.show);
 
 // // import new game to db
 // router.post("/", ctrls.games.createGame);

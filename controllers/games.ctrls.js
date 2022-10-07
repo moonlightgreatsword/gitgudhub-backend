@@ -14,6 +14,19 @@ const index = (req, res) => {
   });
 };
 
+
+const show = (req, res) => {
+  db.find({_id: req.params.id}, (error, games) => {
+    if (error) return res.status(400).json({ error: error.message });
+
+    return res.status(200).json({
+      games,
+      requestedAt: new Date().toLocaleString(),
+    });
+  });
+};
+
+
 const create = (req, res) => {
   db.findById(req.body.gameId, (err, foundGame) => {
     if (err) {
@@ -53,7 +66,7 @@ const create = (req, res) => {
     }
 
   } )
-  
+  console.log('success')
 }
 
 // delete a review
@@ -71,19 +84,20 @@ const deleteReview = (req, res) => {
       return res.status(200).json(game);
     }
   });
+  // res.redirect(`/reviewed`) 
 };
 
 // we need to keep the gameId and author parameters inside of req.body in order for this to work, but maybe make them uneditable?
 const update = (req, res) => {
   db.findOneAndUpdate(
     { "id": req.params.gameId, "reviews._id": req.params.reviewId },
-    { "$set": { "reviews.$": req.body } },
+    { "$set": { "reviews.$.description":  req.body.description } },
     { new: true },
     (error, game) => {
-      if (error) return res.status(400).json({ error: error.message });
-      game.save((error) => {
-        if (error) return res.status(400).json({ error: error.message })
-      })
+      // if (error) return res.status(400).json({ error: error.message });
+      // game.save((error) => {
+      //   if (error) return res.status(400).json({ error: error.message })
+      // })
       return res.status(200).json(game)
     }
   );
@@ -91,6 +105,7 @@ const update = (req, res) => {
 
 module.exports = {
   index,
+  show,
   create,
   deleteReview,
   update,
