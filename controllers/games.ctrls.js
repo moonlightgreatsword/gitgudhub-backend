@@ -4,6 +4,7 @@ const db = require("../models/Game");
 
 // index of reviewed games (entries in our own db)
 const index = (req, res) => {
+  console.log("the route is being hit")
   db.find({}, (error, games) => {
     if (error) return res.status(400).json({ error: error.message });
 
