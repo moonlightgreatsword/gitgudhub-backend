@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require('cors')
 
 // whitelist & corsOptions
-const whitelist = ['http://localhost:3000', 'http://localhost:3003/gitgudhubdb', 'https://fathomless-sierra-68956.herokuapp.com']
+const whitelist = ['http://localhost:3000', 'http://localhost:3003/gitgudhubdb', 'https://gitgudhub.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin) {
